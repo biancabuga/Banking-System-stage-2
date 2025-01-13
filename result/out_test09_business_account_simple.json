@@ -1,0 +1,46 @@
+[ {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 57
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 65
+}, {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 86
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 87
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 101
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 159,
+    "description" : "Card not found"
+  },
+  "timestamp" : 159
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 223,
+    "description" : "Card not found"
+  },
+  "timestamp" : 223
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 261,
+    "description" : "Card not found"
+  },
+  "timestamp" : 261
+}, {
+  "command" : "businessReport",
+  "error" : "Command not implemented",
+  "timestamp" : 280
+} ]

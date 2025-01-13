@@ -1,0 +1,384 @@
+[ {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 208
+}, {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 221
+}, {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 236
+}, {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 257
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 259
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 260
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 261
+}, {
+  "command" : "businessReport",
+  "error" : "Command not implemented",
+  "timestamp" : 262
+}, {
+  "command" : "businessReport",
+  "error" : "Command not implemented",
+  "timestamp" : 263
+}, {
+  "command" : "businessReport",
+  "error" : "Command not implemented",
+  "timestamp" : 264
+}, {
+  "command" : "businessReport",
+  "error" : "Command not implemented",
+  "timestamp" : 265
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 266
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 267
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 268
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 269
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 270
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 271
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 272
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 273
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 274
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 275
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 276
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 277
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 278
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 279
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 280
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 281
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 282
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 283
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 284
+}, {
+  "command" : "addNewBusinessAssociate",
+  "error" : "Command not implemented",
+  "timestamp" : 285
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 297,
+    "description" : "Card not found"
+  },
+  "timestamp" : 297
+}, {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 302
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 304,
+    "description" : "Card not found"
+  },
+  "timestamp" : 304
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 307,
+    "description" : "Card not found"
+  },
+  "timestamp" : 307
+}, {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 311
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 313,
+    "description" : "Card not found"
+  },
+  "timestamp" : 313
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 319,
+    "description" : "Card not found"
+  },
+  "timestamp" : 319
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 325,
+    "description" : "Card not found"
+  },
+  "timestamp" : 325
+}, {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 328
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 330,
+    "description" : "Card not found"
+  },
+  "timestamp" : 330
+}, {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 332
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 334,
+    "description" : "Card not found"
+  },
+  "timestamp" : 334
+}, {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 339
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 342,
+    "description" : "Card not found"
+  },
+  "timestamp" : 342
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 349,
+    "description" : "Card not found"
+  },
+  "timestamp" : 349
+}, {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 353
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 355,
+    "description" : "Card not found"
+  },
+  "timestamp" : 355
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 359,
+    "description" : "Card not found"
+  },
+  "timestamp" : 359
+}, {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 362
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 365,
+    "description" : "Card not found"
+  },
+  "timestamp" : 365
+}, {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 367
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 369,
+    "description" : "Card not found"
+  },
+  "timestamp" : 369
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 372,
+    "description" : "Card not found"
+  },
+  "timestamp" : 372
+}, {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 378
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 380,
+    "description" : "Card not found"
+  },
+  "timestamp" : 380
+}, {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 386
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 389,
+    "description" : "Card not found"
+  },
+  "timestamp" : 389
+}, {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 392
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 394,
+    "description" : "Card not found"
+  },
+  "timestamp" : 394
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 400,
+    "description" : "Card not found"
+  },
+  "timestamp" : 400
+}, {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 406
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 408,
+    "description" : "Card not found"
+  },
+  "timestamp" : 408
+}, {
+  "command" : "changeSpendingLimit",
+  "error" : "Command not implemented",
+  "timestamp" : 412
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 415,
+    "description" : "Card not found"
+  },
+  "timestamp" : 415
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 418,
+    "description" : "Card not found"
+  },
+  "timestamp" : 418
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 422,
+    "description" : "Card not found"
+  },
+  "timestamp" : 422
+}, {
+  "command" : "payOnline",
+  "output" : {
+    "timestamp" : 425,
+    "description" : "Card not found"
+  },
+  "timestamp" : 425
+}, {
+  "command" : "businessReport",
+  "error" : "Command not implemented",
+  "timestamp" : 429
+}, {
+  "command" : "businessReport",
+  "error" : "Command not implemented",
+  "timestamp" : 430
+}, {
+  "command" : "businessReport",
+  "error" : "Command not implemented",
+  "timestamp" : 431
+}, {
+  "command" : "businessReport",
+  "error" : "Command not implemented",
+  "timestamp" : 432
+}, {
+  "command" : "sendMoney",
+  "output" : {
+    "description" : "User not found",
+    "timestamp" : 434
+  },
+  "timestamp" : 434
+}, {
+  "command" : "businessReport",
+  "error" : "Command not implemented",
+  "timestamp" : 435
+}, {
+  "command" : "businessReport",
+  "error" : "Command not implemented",
+  "timestamp" : 436
+}, {
+  "command" : "businessReport",
+  "error" : "Command not implemented",
+  "timestamp" : 437
+}, {
+  "command" : "businessReport",
+  "error" : "Command not implemented",
+  "timestamp" : 438
+} ]
