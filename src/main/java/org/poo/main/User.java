@@ -144,33 +144,34 @@ public final class User implements JsonOutput {
         /**
          * Setează planul utilizatorului și returnează instanța builder-ului.
          *
-         * @param plan Planul asociat utilizatorului (ex. standard, student, silver).
+         * @param thePlan Planul asociat utilizatorului (ex. standard, student, silver).
          * @return Instanța curentă a builder-ului.
          */
-        public final UserBuilder plan(final String plan) {
-            this.plan = plan;
+        public final UserBuilder plan(final String thePlan) {
+            this.plan = thePlan;
             return this;
         }
 
         /**
          * Setează data de naștere a utilizatorului și returnează instanța builder-ului.
          *
-         * @param birthDate Data de naștere a utilizatorului în formatul dorit (ex. "yyyy-MM-dd").
+         * @param theBirthDate Data de naștere a
+         *                    utilizatorului în formatul dorit (ex. "yyyy-MM-dd").
          * @return Instanța curentă a builder-ului.
          */
-        public final UserBuilder birthDate(final String birthDate) {
-            this.birthDate = birthDate;
+        public final UserBuilder birthDate(final String theBirthDate) {
+            this.birthDate = theBirthDate;
             return this;
         }
 
         /**
          * Setează ocupația utilizatorului și returnează instanța builder-ului.
          *
-         * @param occupation Ocupația utilizatorului (ex. programator, student).
+         * @param theOccupation Ocupația utilizatorului (ex. programator, student).
          * @return Instanța curentă a builder-ului.
          */
-        public final UserBuilder occupation(final String occupation) {
-            this.occupation = occupation;
+        public final UserBuilder occupation(final String theOccupation) {
+            this.occupation = theOccupation;
             return this;
         }
 

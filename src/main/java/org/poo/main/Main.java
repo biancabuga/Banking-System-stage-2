@@ -26,7 +26,15 @@ public final class Main {
     /**
      * for coding style
      */
-    private final static double MINIMUM_SILVER = 500;
+    private static final double MINIMUM_SILVER = 500;
+    private static final double MINIMUM_AGE = 21;
+    private static final double LIMIT_WARNING = 30;
+    private static final double FEE_STANDARD = 0.002;
+    private static final double FEE_SILVER = 0.001;
+    private static final double STUNDENT_STANDARD_SILVER = 100;
+    private static final double STUDENT_STANDARD_GOLD = 350;
+    private static final double SILVER_GOLD = 250;
+
     private Main() {
     }
 
@@ -406,7 +414,7 @@ public final class Main {
                                             command.getAmount() < MINIMUM_SILVER) {
                                         account.setBalance(account.getBalance()
                                                 -
-                                                command.getAmount() * 0.1);
+                                                command.getAmount() *   FEE_SILVER);
                                     }
                                 }
                             }
@@ -579,7 +587,7 @@ public final class Main {
                                                 "frozen card");
                                         account.addTransaction(transaction);
                                         user.addTransaction(transaction);
-                                    } else if (balanceDifference <= 30) {
+                                    } else if (balanceDifference <= LIMIT_WARNING) {
                                         card.setStatus("warning");
                                     } else if (account.getBalance() > account.getMinBalance()) {
                                         card.setStatus("active");
@@ -651,7 +659,7 @@ public final class Main {
                                             account.setBalance(newBalance);
 
                                             if (account.getPlan().equals("standard")) {
-                                                double fee = convertedAmount * 0.002;
+                                                double fee = convertedAmount * FEE_STANDARD;
                                                 double balance = account.getBalance() - fee;
                                                 account.setBalance(balance);
                                             } else if (account.getPlan().equals("silver")) {
@@ -661,7 +669,7 @@ public final class Main {
                                                         Arrays.asList(
                                                                 inputData.getExchangeRates()));
                                                 if (amountPay >= MINIMUM_SILVER) {
-                                                    double fee = convertedAmount * 0.001;
+                                                    double fee = convertedAmount * FEE_SILVER;
                                                     double balance = account.getBalance() - fee;
                                                     account.setBalance(balance);
                                                 }
@@ -891,7 +899,7 @@ public final class Main {
                     receiverAccount.setBalance(newReceiverBalance);
 
                     if (senderAccount.getPlan().equals("standard")) {
-                        double fee = command.getAmount() * 0.002;
+                        double fee = command.getAmount() * FEE_STANDARD;
                         double balance = senderAccount.getBalance() - fee;
                         senderAccount.setBalance(balance);
                     } else if (senderAccount.getPlan().equals("silver")) {
@@ -899,7 +907,7 @@ public final class Main {
                                 senderAccount.getCurrency(), "RON",
                                 Arrays.asList(inputData.getExchangeRates()));
                         if (amount >= MINIMUM_SILVER) {
-                            double fee = command.getAmount() * 0.001;
+                            double fee = command.getAmount() * FEE_SILVER;
                             double balance = senderAccount.getBalance() - fee;
                             senderAccount.setBalance(balance);
                         }
@@ -1228,7 +1236,7 @@ public final class Main {
                     LocalDate currentDate = LocalDate.now();
                     int age = Period.between(birthDate, currentDate).getYears();
 
-                    if (age < 21) {
+                    if (age < MINIMUM_AGE) {
                         Transaction transaction = new Transaction(
                                 command.getTimestamp(),
                                 "You don't have the minimum age required.",
@@ -1323,7 +1331,7 @@ public final class Main {
                         if (command.getNewPlanType().equals("silver")) {
                             double convertedAmount =
                                     Converter.getInstance().convert(
-                                    100, "RON",
+                                    STUNDENT_STANDARD_SILVER, "RON",
                                     currentAccount.getCurrency(),
                                     Arrays.asList(inputData.getExchangeRates())
                             );
@@ -1343,7 +1351,8 @@ public final class Main {
                         } else if (command.getNewPlanType().equals("gold")) {
                             double convertedAmount =
                                     Converter.getInstance().convert(
-                                    350, "RON", currentAccount.getCurrency(),
+                                    STUDENT_STANDARD_GOLD, "RON",
+                                            currentAccount.getCurrency(),
                                     Arrays.asList(inputData.getExchangeRates())
                             );
 
@@ -1367,7 +1376,7 @@ public final class Main {
                         if (command.getNewPlanType().equals("gold")) {
                             double convertedAmount =
                                     Converter.getInstance().convert(
-                                    250, "RON",
+                                    SILVER_GOLD, "RON",
                                     currentAccount.getCurrency(),
                                     Arrays.asList(inputData.getExchangeRates())
                             );
@@ -1466,7 +1475,7 @@ public final class Main {
 
                     if (convertedAmount >= command.getAmount()) {
                         if (currentAccount.getPlan().equals("standard")) {
-                            double fee = command.getAmount() * 0.002;
+                            double fee = command.getAmount() * FEE_STANDARD;
                             double necessaryAmount =
                                     Converter.getInstance().convert(
                                     command.getAmount(), "RON",
@@ -1484,8 +1493,8 @@ public final class Main {
                                     convertedFee;
                             currentAccount.setBalance(value);
                         } else if (currentAccount.getPlan().equals("silver")) {
-                            if (command.getAmount() >= 500) {
-                                double fee = command.getAmount() * 0.001;
+                            if (command.getAmount() >= MINIMUM_SILVER) {
+                                double fee = command.getAmount() * FEE_SILVER;
                                 double necessaryAmount =
                                         Converter.getInstance().convert(
                                         command.getAmount(), "RON",

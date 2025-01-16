@@ -1,24 +1,6 @@
 Starting audit...
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/fileio/CommerciantInput.java:6:8: Unused import - java.util.List. [UnusedImports]
 [ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:9:22: Using the '.*' form of import should be avoided - org.poo.fileio.*. [AvoidStarImport]
 [ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:20:17: Using the '.*' form of import should be avoided - java.util.*. [AvoidStarImport]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:29:19: 'static' modifier out of order with the JLS suggestions. [ModifierOrder]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:73:5: Method action length is 1,730 lines (max allowed is 150). [MethodLength]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:409:71: '0.1' is a magic number. [MagicNumber]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:582:69: '30' is a magic number. [MagicNumber]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:654:80: '0.002' is a magic number. [MagicNumber]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:664:84: '0.001' is a magic number. [MagicNumber]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:894:60: '0.002' is a magic number. [MagicNumber]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:902:64: '0.001' is a magic number. [MagicNumber]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:1231:31: '21' is a magic number. [MagicNumber]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:1326:37: '100' is a magic number. [MagicNumber]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:1346:37: '350' is a magic number. [MagicNumber]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:1370:37: '250' is a magic number. [MagicNumber]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:1469:64: '0.002' is a magic number. [MagicNumber]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:1487:56: '500' is a magic number. [MagicNumber]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:1488:68: '0.001' is a magic number. [MagicNumber]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/User.java:150:52: 'plan' hides a field. [HiddenField]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/User.java:161:57: 'birthDate' hides a field. [HiddenField]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/User.java:172:58: 'occupation' hides a field. [HiddenField]
+[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:81:5: Method action length is 1,731 lines (max allowed is 150). [MethodLength]
 Audit done.
-Checkstyle ends with 21 errors.
+Checkstyle ends with 3 errors.
