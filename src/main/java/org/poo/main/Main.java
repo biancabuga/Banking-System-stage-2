@@ -11,8 +11,6 @@ import org.poo.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,6 +26,7 @@ public final class Main {
     /**
      * for coding style
      */
+    private final static double MINIMUM_SILVER = 500;
     private Main() {
     }
 
@@ -114,8 +113,6 @@ public final class Main {
         SplitPayment splitPayment = new SplitPayment();
         EqualSplit equalSplit = new EqualSplit();
 
-        List<User> Users = new ArrayList<>();
-        // Crearea cursurilor valutare
         Map<String, Double> exchangeRates = new HashMap<>();
         if (inputData.getExchangeRates() != null) {
             for (ExchangeInput exchange : inputData.getExchangeRates()) {
@@ -166,9 +163,9 @@ public final class Main {
                     ArrayNode transactionsOutput = objectMapper.createArrayNode();
                     for (User user : users) {
                         if (user.getEmail().equals(command.getEmail())) {
-                            user.getTransactions().sort(Comparator.comparing(Transaction::getTimestamp));
+                            user.getTransactions().sort(
+                                    Comparator.comparing(Transaction::getTimestamp));
                             for (Transaction transaction : user.getTransactions()) {
-                                // Creăm nodul JSON pentru tranzacție
                                 ObjectNode transactionNode = objectMapper.createObjectNode();
                                 transactionNode.put("timestamp", transaction.getTimestamp());
                                 transactionNode.put("description",
@@ -226,7 +223,10 @@ public final class Main {
                                             transaction.getCurrency());
                                     transactionNode.put("error",
                                             "Account " + transaction.getError()
-                                                    + " has insufficient funds for a split payment.");
+                                                    +
+                                                    " has insufficient "
+                                                    +
+                                                    "funds for a split payment.");
                                     ArrayNode involvedAccounts = objectMapper.createArrayNode();
                                     for (String iban : transaction.getAccountsToSplit()) {
                                         involvedAccounts.add(iban);
@@ -242,62 +242,87 @@ public final class Main {
                                             transaction.getDescription());
                                     transactionNode.put("timestamp",
                                             transaction.getTimestamp());
-                                    transactionNode.put("accountIBAN", transaction.getReceiverIBAN());
-                                    transactionNode.put("newPlanType", transaction.getPlan());
+                                    transactionNode.put("accountIBAN",
+                                            transaction.getReceiverIBAN());
+                                    transactionNode.put("newPlanType",
+                                            transaction.getPlan());
                                 } else if (transaction.getTransferType().equals("cashWithdrawal")) {
-                                    transactionNode.put("description", transaction.getDescription());
-                                    transactionNode.put("timestamp", transaction.getTimestamp());
-                                    transactionNode.put("amount", transaction.getAmountToPay());
+                                    transactionNode.put("description",
+                                            transaction.getDescription());
+                                    transactionNode.put("timestamp",
+                                            transaction.getTimestamp());
+                                    transactionNode.put("amount",
+                                            transaction.getAmountToPay());
                                 } else if (transaction.getTransferType().equals("noCash")) {
-                                    transactionNode.put("description", transaction.getDescription());
-                                    transactionNode.put("timestamp", transaction.getTimestamp());
+                                    transactionNode.put("description",
+                                            transaction.getDescription());
+                                    transactionNode.put("timestamp",
+                                            transaction.getTimestamp());
                                 } else if (transaction.getTransferType().equals("addInterest")) {
-                                    transactionNode.put("description", transaction.getDescription());
-                                    transactionNode.put("timestamp", transaction.getTimestamp());
-                                    transactionNode.put("amount", transaction.getAmountToPay());
-                                    transactionNode.put("currency", transaction.getCommerciant());
-                                } else if (transaction.getTransferType().equals("no classic account")) {
-                                    transactionNode.put("description", transaction.getDescription());
-                                    transactionNode.put("timestamp", transaction.getTimestamp());
+                                    transactionNode.put("description",
+                                            transaction.getDescription());
+                                    transactionNode.put("timestamp",
+                                            transaction.getTimestamp());
+                                    transactionNode.put("amount",
+                                            transaction.getAmountToPay());
+                                    transactionNode.put("currency",
+                                            transaction.getCommerciant());
+                                } else if (transaction.getTransferType().
+                                        equals("no classic account")) {
+                                    transactionNode.put("description",
+                                            transaction.getDescription());
+                                    transactionNode.put("timestamp",
+                                            transaction.getTimestamp());
                                 } else if (transaction.getTransferType().equals("splitAccepted")) {
-                                    transactionNode.put("description", transaction.getDescription());
-                                    transactionNode.put("timestamp", transaction.getTimestamp());
+                                    transactionNode.put("description",
+                                            transaction.getDescription());
+                                    transactionNode.put("timestamp",
+                                            transaction.getTimestamp());
                                     if (transaction.getAmounts() != null) {
-                                       ArrayNode Sums = objectMapper.createArrayNode();
+                                       ArrayNode sums = objectMapper.createArrayNode();
                                        for (Double amount : transaction.getAmounts()) {
-                                           Sums.add(amount);
+                                           sums.add(amount);
                                        }
-                                       transactionNode.set("amountForUsers", Sums);
+                                       transactionNode.set("amountForUsers", sums);
                                     }
                                     ArrayNode involvedAccounts = objectMapper.createArrayNode();
                                     for (String iban : transaction.getAccountsToSplit()) {
                                         involvedAccounts.add(iban);
                                     }
-                                    transactionNode.set("involvedAccounts", involvedAccounts);
-                                    transactionNode.put("currency", transaction.getCurrency());
-                                    transactionNode.put("splitPaymentType", transaction.getTypeSplit());
+                                    transactionNode.set("involvedAccounts",
+                                            involvedAccounts);
+                                    transactionNode.put("currency",
+                                            transaction.getCurrency());
+                                    transactionNode.put("splitPaymentType",
+                                            transaction.getTypeSplit());
                                 } else if (transaction.getTransferType().equals("noMoneyToSplit")) {
-                                    transactionNode.put("description", transaction.getDescription());
-                                    transactionNode.put("timestamp", transaction.getTimestamp());
-                                    transactionNode.put("error", transaction.getPoorAccount());
+                                    transactionNode.put("description",
+                                            transaction.getDescription());
+                                    transactionNode.put("timestamp",
+                                            transaction.getTimestamp());
+                                    transactionNode.put("error",
+                                            transaction.getPoorAccount());
                                     if (transaction.getAmounts() != null) {
-                                        ArrayNode Sums = objectMapper.createArrayNode();
+                                        ArrayNode sums = objectMapper.createArrayNode();
                                         for (Double amount : transaction.getAmounts()) {
-                                            Sums.add(amount);
+                                            sums.add(amount);
                                         }
-                                        transactionNode.set("amountForUsers", Sums);
+                                        transactionNode.set("amountForUsers", sums);
                                     } else {
-                                        transactionNode.put("amount", transaction.getAmountToPay());
+                                        transactionNode.put("amount",
+                                                transaction.getAmountToPay());
                                     }
                                     ArrayNode involvedAccounts = objectMapper.createArrayNode();
                                     for (String iban : transaction.getAccountsToSplit()) {
                                         involvedAccounts.add(iban);
                                     }
-                                    transactionNode.set("involvedAccounts", involvedAccounts);
-                                    transactionNode.put("currency", transaction.getCurrency());
-                                    transactionNode.put("splitPaymentType", transaction.getTypeSplit());
-                                }
-                                else if (transaction.getTransferType().equals("sent")
+                                    transactionNode.set("involvedAccounts",
+                                            involvedAccounts);
+                                    transactionNode.put("currency",
+                                            transaction.getCurrency());
+                                    transactionNode.put("splitPaymentType",
+                                            transaction.getTypeSplit());
+                                } else if (transaction.getTransferType().equals("sent")
                                         ||
                                         transaction.getTransferType().equals("received")) {
                                     transactionNode.put("senderIBAN",
@@ -308,7 +333,6 @@ public final class Main {
                                             transaction.getAmount());
                                     transactionNode.put("transferType",
                                             transaction.getTransferType());
-                                    // Adăugăm tranzacția la output
                                 }
                                 transactionsOutput.add(transactionNode);
                             }
@@ -324,13 +348,12 @@ public final class Main {
                 case "addAccount" -> {
                     for (User user : users) {
                         if (user.getEmail().equals(command.getEmail())) {
-                            // Generăm și validăm IBAN-ul
                             String generatedIBAN;
                             generatedIBAN = Utils.generateIBAN();
-                            // Creăm contul
+
                             Account newAccount = AccountFactory.createAccount(
                                     generatedIBAN,
-                                    0.0, // Sold inițial
+                                    0.0,
                                     command.getCurrency(),
                                     command.getAccountType(),
                                     new ArrayList<>()
@@ -342,12 +365,12 @@ public final class Main {
                                 if (account.getPlan().equals("silver")) {
                                     silver = true;
                                 }
-                                if (silver == true) {
+                                if (silver) {
                                     break;
                                 }
                             }
 
-                            if (silver == true) {
+                            if (silver) {
                                 newAccount.setPlan("silver");
                             } else {
                                 if (user.getOccupation().equals("student")) {
@@ -358,19 +381,6 @@ public final class Main {
                             }
 
                             newAccount.setInterestRate(command.getInterestRate());
-
-//                            if (user.getPlan() != null) {
-//                                if (user.getPlan().equals("silver")) {
-//                                    System.out.println("Silver Plan");
-//                                    newAccount.setPlan("silver");
-//                                }
-//                            } else {
-//                                if (user.getOccupation().equals("student")) {
-//                                    newAccount.setPlan("student");
-//                                } else {
-//                                    newAccount.setPlan("standard");
-//                                }
-//                            }
 
                             Transaction transaction = new Transaction(
                                     command.getTimestamp(),
@@ -383,17 +393,20 @@ public final class Main {
                         }
                     }
                 }
-
                 case "addFunds" -> {
                     for (User user : users) {
                         for (Account account : user.getAccounts()) {
-                            // Verificăm dacă IBAN-ul corespunde contului
                             if (account.getIBAN().equals(command.getAccount())) {
-                                // Adăugăm suma specificată în soldul contului
-                                account.setBalance(account.getBalance() + command.getAmount());
-                                if(user.getPlan() != null) {
-                                    if (user.getPlan().equals("silver") && command.getAmount() < 500) {
-                                        account.setBalance(account.getBalance() - command.getAmount() * 0.1);
+                                account.setBalance(account.getBalance()
+                                        +
+                                        command.getAmount());
+                                if (user.getPlan() != null) {
+                                    if (user.getPlan().equals("silver")
+                                            &&
+                                            command.getAmount() < MINIMUM_SILVER) {
+                                        account.setBalance(account.getBalance()
+                                                -
+                                                command.getAmount() * 0.1);
                                     }
                                 }
                             }
@@ -463,16 +476,12 @@ public final class Main {
                     boolean accountDeleted = false;
                     for (User user : users) {
                         if (user.getEmail().equals(command.getEmail())) {
-                            // Iterăm prin conturile utilizatorului
                             List<Account> accounts = user.getAccounts();
                             for (int i = 0; i < accounts.size(); i++) {
                                 Account account = accounts.get(i);
                                 if (account.getIBAN().equals(command.getAccount())) {
-                                    // Verificăm dacă balanța este 0.0
                                     if (account.getBalance() == 0.0) {
-                                        // Ștergem toate cardurile asociate contului
                                         account.getCards().clear();
-                                        // Ștergem contul din lista de conturi
                                         accounts.remove(i);
                                         accountDeleted = true;
                                     } else {
@@ -528,7 +537,7 @@ public final class Main {
                                     );
                                     account.addTransaction(transaction);
                                     user.addTransaction(transaction);
-                                    break; // Ieșim din buclă după ce cardul este găsit și șters
+                                    break;
                                 }
                             }
                         }
@@ -536,11 +545,9 @@ public final class Main {
                 }
                 case "setMinimumBalance" -> {
                     for (User user : users) {
-                        // Verificăm dacă utilizatorul este cel corect
                         if (user.getEmail().equals(command.getEmail())) {
                             for (Account account : user.getAccounts()) {
                                 if (account.getIBAN().equals(command.getAccount())) {
-                                    // Setăm balanța minimă
                                     account.setMinBalance(command.getAmount());
                                     return;
                                 }
@@ -560,7 +567,6 @@ public final class Main {
                                             - account.getMinBalance();
 
                                     if (account.getBalance() <= account.getMinBalance()) {
-                                        // Blocăm cardul dacă balanța este sub minim
                                         card.setStatus("frozen");
                                         card.setIsBlocked(1);
                                         Transaction transaction = new Transaction(
@@ -574,10 +580,8 @@ public final class Main {
                                         account.addTransaction(transaction);
                                         user.addTransaction(transaction);
                                     } else if (balanceDifference <= 30) {
-                                        // Schimbăm statusul în warning dacă diferența e <= 30
                                         card.setStatus("warning");
                                     } else if (account.getBalance() > account.getMinBalance()) {
-                                        // Cardul rămâne activ
                                         card.setStatus("active");
                                     }
                                     break;
@@ -586,7 +590,6 @@ public final class Main {
                         }
                     }
                     if (!cardFound) {
-                        // Dacă nu s-a găsit cardul, adăugăm output-ul de eroare
                         ObjectNode commandOutput = objectMapper.createObjectNode();
                         commandOutput.put("command", "checkCardStatus");
 
@@ -635,33 +638,29 @@ public final class Main {
                                                             command.getAmount(),
                                                             command.getCurrency(),
                                                             account.getCurrency(),
-                                                            Arrays.asList(inputData.getExchangeRates())
+                                                            Arrays.asList(
+                                                                    inputData.
+                                                                            getExchangeRates())
                                                     );
                                         }
 
                                         if (account.getBalance() >= convertedAmount) {
-                                            double newBalance = account.getBalance() - convertedAmount;
+                                            double newBalance =
+                                                    account.getBalance() - convertedAmount;
 
                                             account.setBalance(newBalance);
-
-//                                            double amount = Converter.getInstance().convert(
-//                                                    command.getAmount(),
-//                                                    command.getCurrency(),
-//                                                    "RON",
-//                                                    Arrays.asList(inputData.getExchangeRates())
-//                                            );
-//
-//                                            account.addToTotalSpent(amount);
 
                                             if (account.getPlan().equals("standard")) {
                                                 double fee = convertedAmount * 0.002;
                                                 double balance = account.getBalance() - fee;
                                                 account.setBalance(balance);
-                                            }
-                                            else if(account.getPlan().equals("silver")) {
-                                                double amountPay = Converter.getInstance().convert(command.getAmount(),
-                                                        command.getCurrency(), "RON", Arrays.asList(inputData.getExchangeRates()));
-                                                if (amountPay >= 500) {
+                                            } else if (account.getPlan().equals("silver")) {
+                                                double amountPay = Converter.getInstance().convert(
+                                                        command.getAmount(),
+                                                        command.getCurrency(), "RON",
+                                                        Arrays.asList(
+                                                                inputData.getExchangeRates()));
+                                                if (amountPay >= MINIMUM_SILVER) {
                                                     double fee = convertedAmount * 0.001;
                                                     double balance = account.getBalance() - fee;
                                                     account.setBalance(balance);
@@ -669,47 +668,61 @@ public final class Main {
                                             }
 
                                             for (Commerciant commerciant : commerciants) {
-                                                if (commerciant.getCommerciant().equals(command.getCommerciant())) {
-                                                    CashbackContext cashbackContext = new CashbackContext();
+                                                if (commerciant.getCommerciant()
+                                                        .equals(command.getCommerciant())) {
+                                                    CashbackContext cashbackContext =
+                                                            new CashbackContext();
                                                     CashbackStrategy strategy;
 
                                                     if (commerciant.getType().equals("Clothes")) {
                                                         account.incrClothes();
-                                                    } else if (commerciant.getType().equals("Food")) {
+                                                    } else if (commerciant.getType()
+                                                            .equals("Food")) {
                                                         account.incrFood();
-                                                    } else if (commerciant.getType().equals("Tech")) {
+                                                    } else if (commerciant.getType()
+                                                            .equals("Tech")) {
                                                         account.incrTech();
                                                     }
-                                                    if (commerciant.getCashbackStrategy().equals("spendingThreshold")) {
-                                                        double amount = Converter.getInstance().convert(
+                                                    if (commerciant.getCashbackStrategy()
+                                                            .equals("spendingThreshold")) {
+                                                        double amount =
+                                                                Converter.getInstance().convert(
                                                                 command.getAmount(),
                                                                 command.getCurrency(),
                                                                 "RON",
-                                                                Arrays.asList(inputData.getExchangeRates())
+                                                                Arrays.asList(
+                                                                        inputData
+                                                                                .getExchangeRates())
                                                         );
 
                                                         account.addToTotalSpent(amount);
                                                         strategy = new SpendingThresholdStrategy();
-                                                    } else if (commerciant.getCashbackStrategy().equals("nrOfTransactions")) {
+                                                    } else if (commerciant.getCashbackStrategy()
+                                                            .equals("nrOfTransactions")) {
                                                         strategy = new NumberOfTransactions();
-                                                    }
-                                                    else {
+                                                    } else {
                                                         continue;
                                                     }
-                                                    if (commerciant.getCashbackStrategy().equals("spendingThreshold")) {
+                                                    if (commerciant.getCashbackStrategy()
+                                                            .equals("spendingThreshold")) {
                                                         cashbackContext.setStrategy(strategy);
-                                                        double cashback = cashbackContext.executeStrategy(convertedAmount,
+                                                        double cashback = cashbackContext
+                                                                .executeStrategy(convertedAmount,
                                                                 account);
                                                         if (cashback > 0) {
-                                                            double value = account.getBalance() + cashback;
+                                                            double value = account.getBalance()
+                                                                    + cashback;
                                                             account.setBalance(value);
                                                         }
-                                                    }
-                                                    else if (commerciant.getCashbackStrategy().equals("nrOfTransactions")) {
+                                                    } else if (commerciant.getCashbackStrategy()
+                                                            .equals("nrOfTransactions")) {
                                                         cashbackContext.setStrategy(strategy);
-                                                        double cashback = cashbackContext.executeStrategy(convertedAmount, account);
+                                                        double cashback = cashbackContext
+                                                                .executeStrategy(
+                                                                convertedAmount, account);
                                                         if (cashback > 0) {
-                                                            double value = account.getBalance() + cashback;
+                                                            double value = account.getBalance()
+                                                                    + cashback;
                                                             account.setBalance(value);
                                                         }
                                                     }
@@ -717,8 +730,6 @@ public final class Main {
                                             }
 
                                             if (card.getTypeOfCard().equals("one_time")) {
-                                                // Dupa ce folosim un one time
-                                                // il stergem si generam altul
                                                 Transaction newCardTransaction = new Transaction(
                                                         command.getTimestamp(),
                                                         "Card payment",
@@ -834,7 +845,7 @@ public final class Main {
                     }
 
 
-                    if (receiverFound == false) {
+                    if (!receiverFound) {
                         ObjectNode commandOutput = objectMapper.createObjectNode();
                         commandOutput.put("command", "sendMoney");
                         ObjectNode outputNode = objectMapper.createObjectNode();
@@ -883,11 +894,11 @@ public final class Main {
                         double fee = command.getAmount() * 0.002;
                         double balance = senderAccount.getBalance() - fee;
                         senderAccount.setBalance(balance);
-                    }
-                    else if(senderAccount.getPlan().equals("silver")) {
+                    } else if (senderAccount.getPlan().equals("silver")) {
                         double amount = Converter.getInstance().convert(command.getAmount(),
-                                senderAccount.getCurrency(), "RON", Arrays.asList(inputData.getExchangeRates()));
-                        if (amount >= 500) {
+                                senderAccount.getCurrency(), "RON",
+                                Arrays.asList(inputData.getExchangeRates()));
+                        if (amount >= MINIMUM_SILVER) {
                             double fee = command.getAmount() * 0.001;
                             double balance = senderAccount.getBalance() - fee;
                             senderAccount.setBalance(balance);
@@ -957,9 +968,6 @@ public final class Main {
                     }
 
                 } case "splitPayment" -> {
-//                    SplitPayment splitPayment = new SplitPayment(command.getCommand(), command.getSplitPaymentType(),
-//                            command.getAccounts(), command.getAmount(), command.getAmountForUsers(),
-//                            command.getCurrency(), command.getTimestamp());
                     if (command.getSplitPaymentType().equals("custom")) {
                         splitPayment.setCommand(command.getCommand());
                         splitPayment.setSplitPaymentType(command.getSplitPaymentType());
@@ -979,128 +987,9 @@ public final class Main {
                         equalSplit.setCurrency(command.getCurrency());
                         equalSplit.setTimestamp(command.getTimestamp());
                         equalSplit.setNumberOfAccountsCommand(command.getAccounts().size());
-                        System.out.println("NUmber" + equalSplit.getNumberOfAccountsCommand());
                         equalSplit.setAux(command.getAmountForUsers());
                         equalSplit.setNumberOfAccountsInvolved(0);
                     }
-//                    if (command.getAccounts() != null && command.getAmountForUsers() != null) {
-//                        splitPaymentCommands.add(command);
-//                        splitDouble.add(command);
-//                        size.add(command.getAccounts().size());
-//                        prices = command.getAmountForUsers();
-//                        currency = command.getCurrency();
-//                        accountsSplit = command.getAccounts();
-//                        timestamp = command.getTimestamp();
-//                        System.out.println(prices);
-//                    }
-
-//                    boolean allAcountsValid = true;
-//                    int numberOfAcounts = 0;
-//                    User currentUse = null;
-//                    double amountPerAccount = command.getAmount() / command.getAccounts().size();
-//                    double aux = amountPerAccount;
-//                    for (String iban : command.getAccounts()) {
-//                        boolean accountFound = false;
-//                        for (User user : users) {
-//                            for (Account account : user.getAccounts()) {
-//                                if (account.getIBAN().equals(iban)) {
-//                                    currentUse = user;
-////                                    if (user.getAccept().equals("acceptSplitPayment")) {
-////                                        System.out.println("ye");
-////                                        numberOfAcounts++;
-////                                    } else {
-////                                        break;
-////                                    }
-//                                    accountFound = true;
-//                                    break;
-//                                }
-//                            } if (accountFound) {
-//                                break;
-//                            }
-//                        } if (!accountFound) {
-//                            allAcountsValid = false;
-//                        }
-//                    }
-//                    //Gasim ultimul cont care nu are suficienti bani
-//                    String poorAccount = null;
-//                    for (String iban : command.getAccounts()) {
-//                        for (User user : users) {
-//                            for (Account account : user.getAccounts()) {
-//                                if (account.getIBAN().equals(iban)) {
-//                                    double convertedAmount;
-//                                    if (!account.getCurrency().equals(command.getCurrency())) {
-//                                        convertedAmount = Converter.getInstance().
-//                                                convert(
-//                                                        amountPerAccount,
-//                                                        command.getCurrency(),
-//                                                        account.getCurrency(),
-//                                                        Arrays.asList(inputData.getExchangeRates())
-//                                                );
-//                                        if (account.getBalance() < convertedAmount) {
-//                                            poorAccount = iban;
-//                                        }
-//                                    } else if (account.getBalance() < amountPerAccount) {
-//                                        poorAccount = iban;
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                        if (allAcountsValid) {
-//                            ArrayNode involvedAccounts = objectMapper.createArrayNode();
-//                            for (String iban : command.getAccounts()) {
-//                                for (User user : users) {
-//                                    for (Account account : user.getAccounts()) {
-//                                        if (account.getIBAN().equals(iban)) {
-//                                            double convertedAmount;
-//                                            if (!account.getCurrency().equals(command.getCurrency())) {
-//                                                convertedAmount = Converter.getInstance().
-//                                                        convert(
-//                                                                amountPerAccount,
-//                                                                command.getCurrency(),
-//                                                                account.getCurrency(),
-//                                                                Arrays.asList(inputData.getExchangeRates())
-//                                                        );
-//                                            } else {
-//                                                convertedAmount = aux;
-//                                            }
-//                                            if (poorAccount == null) {
-//                                                account.setBalance(account.getBalance()
-//                                                        -
-//                                                        convertedAmount);
-//                                                involvedAccounts.add(iban);
-//                                                Transaction transaction = new Transaction(
-//                                                        command.getTimestamp(),
-//                                                        String.format("Split payment of %.2f %s",
-//                                                                command.getAmount(),
-//                                                                command.getCurrency()),
-//                                                        command.getAccounts(),
-//                                                        command.getCurrency(),
-//                                                        amountPerAccount,
-//                                                        "split_payment");
-//                                                account.addTransaction(transaction);
-//                                                user.addTransaction(transaction);
-//                                            } else {
-//                                                involvedAccounts.add(iban);
-//                                                Transaction transaction = new Transaction(
-//                                                        command.getTimestamp(),
-//                                                        String.format("Split payment of %.2f %s",
-//                                                                command.getAmount(),
-//                                                                command.getCurrency()),
-//                                                        command.getAccounts(),
-//                                                        command.getCurrency(),
-//                                                        amountPerAccount,
-//                                                        "split_payment_error", poorAccount);
-//                                                account.addTransaction(transaction);
-//                                                user.addTransaction(transaction);
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                            }
-//
-//                        }
                 } case "addInterest" -> {
                     for (User user : users) {
                         for (Account account : user.getAccounts()) {
@@ -1112,7 +1001,8 @@ public final class Main {
                                         +
                                         account.getInterestRate() * account.getBalance());
                                 Transaction transaction = new Transaction(
-                                        command.getTimestamp(), "Interest rate income", account.getCurrency(),
+                                        command.getTimestamp(),
+                                        "Interest rate income", account.getCurrency(),
                                         save,
                                         "addInterest");
                                 account.addTransaction(transaction);
@@ -1275,7 +1165,6 @@ public final class Main {
                         spendingsReport.put("balance", targetAccount.getBalance());
                         spendingsReport.put("currency", targetAccount.getCurrency());
 
-                        // Calculează sumele cheltuite pe comercianți
                         Map<String, Double> merchantSpendings = new HashMap<>();
                         ArrayNode transactionsOutput = objectMapper.createArrayNode();
 
@@ -1300,7 +1189,6 @@ public final class Main {
                             }
                         }
 
-                        // Adaugă comercianții în output în ordine alfabetică
                         ArrayNode merchantsOutput = objectMapper.createArrayNode();
                         merchantSpendings.entrySet().stream()
                                 .sorted(Map.Entry.comparingByKey())
@@ -1352,15 +1240,16 @@ public final class Main {
                     Account savingsAccount = null;
                     Account targetClassicAccount = null;
 
-                    // Găsim contul de economii
                     for (Account account : currentUser.getAccounts()) {
-                        if (account.getIBAN().equals(command.getAccount()) && account.getType().equals("savings")) {
+                        if (account.getIBAN().equals(command.getAccount())
+                                &&
+                                account.getType().equals("savings")) {
                             savingsAccount = account;
                             break;
                         }
                     }
 
-                    if(savingsAccount == null) {
+                    if (savingsAccount == null) {
                         break;
                     }
 
@@ -1370,7 +1259,7 @@ public final class Main {
                             break;
                         }
                     }
-                    if(targetClassicAccount == null) {
+                    if (targetClassicAccount == null) {
                         Transaction transaction = new Transaction(command.getTimestamp(),
                                 "You do not have a classic account.",
                                 "no classic account");
@@ -1379,14 +1268,16 @@ public final class Main {
                     }
                     if (savingsAccount.getBalance() < command.getAmount()) {
                         ObjectNode errorOutput = objectMapper.createObjectNode();
-                        errorOutput.put("description", "Insufficient funds in savings account");
+                        errorOutput.put("description",
+                                "Insufficient funds in savings account");
                         errorOutput.put("timestamp", command.getTimestamp());
                         output.add(errorOutput);
                         break;
                     }
 
-                    // Facem transferul de fonduri
-                    savingsAccount.setBalance(savingsAccount.getBalance() + targetClassicAccount.getBalance());
+                    savingsAccount.setBalance(savingsAccount.getBalance()
+                            +
+                            targetClassicAccount.getBalance());
                     double convertedAmount = command.getAmount();
 
                     if (!savingsAccount.getCurrency().equals(command.getCurrency())) {
@@ -1397,13 +1288,11 @@ public final class Main {
                                 Arrays.asList(inputData.getExchangeRates())
                         );
                     }
-                    //targetClassicAccount.setBalance(targetClassicAccount.getBalance() - command.getAmount());
                 } case "upgradePlan" -> {
                     User currentUser = null;
                     Account currentAccount = null;
                     boolean noUpdate = false;
                     boolean noMoney = false;
-                    // Găsim utilizatorul curent pe baza IBAN-ului
                     for (User user : users) {
                         for (Account account : user.getAccounts()) {
                             if (account.getIBAN().equals(command.getAccount())) {
@@ -1412,8 +1301,12 @@ public final class Main {
                                 break;
                             }
                         }
-                        if (currentUser != null) break;
-                        if (currentAccount != null) break;
+                        if (currentUser != null) {
+                            break;
+                        }
+                        if (currentAccount != null) {
+                            break;
+                        }
                     }
 
                     if (currentUser == null) {
@@ -1424,10 +1317,15 @@ public final class Main {
                         break;
                     }
                     String type = null;
-                    if (currentAccount.getPlan().equals("standard") || currentAccount.getPlan().equals("student")) {
+                    if (currentAccount.getPlan().equals("standard")
+                            ||
+                            currentAccount.getPlan().equals("student")) {
                         if (command.getNewPlanType().equals("silver")) {
-                            double convertedAmount = Converter.getInstance().convert(
-                                    100, "RON", currentAccount.getCurrency(), Arrays.asList(inputData.getExchangeRates())
+                            double convertedAmount =
+                                    Converter.getInstance().convert(
+                                    100, "RON",
+                                    currentAccount.getCurrency(),
+                                    Arrays.asList(inputData.getExchangeRates())
                             );
                             double currentBalance = currentAccount.getBalance();
 
@@ -1443,8 +1341,10 @@ public final class Main {
                                 break;
                             }
                         } else if (command.getNewPlanType().equals("gold")) {
-                            double convertedAmount = Converter.getInstance().convert(
-                                    350, "RON", currentAccount.getCurrency(), Arrays.asList(inputData.getExchangeRates())
+                            double convertedAmount =
+                                    Converter.getInstance().convert(
+                                    350, "RON", currentAccount.getCurrency(),
+                                    Arrays.asList(inputData.getExchangeRates())
                             );
 
                             double currentBalance = currentAccount.getBalance();
@@ -1465,8 +1365,11 @@ public final class Main {
                         }
                     } else if (currentAccount.getPlan().equals("silver")) {
                         if (command.getNewPlanType().equals("gold")) {
-                            double convertedAmount = Converter.getInstance().convert(
-                                    250, "RON", currentAccount.getCurrency(), Arrays.asList(inputData.getExchangeRates())
+                            double convertedAmount =
+                                    Converter.getInstance().convert(
+                                    250, "RON",
+                                    currentAccount.getCurrency(),
+                                    Arrays.asList(inputData.getExchangeRates())
                             );
 
                             double currentBalance = currentAccount.getBalance();
@@ -1491,7 +1394,7 @@ public final class Main {
                             account.setPlan("silver");
                         }
                     }
-                    if (noUpdate == false || noMoney == false) {
+                    if (!noUpdate || !noMoney) {
                         Transaction upgradeTransaction = new Transaction(
                                 command.getTimestamp(),
                                 "Upgrade plan",
@@ -1505,9 +1408,8 @@ public final class Main {
                     boolean done = false;
                     User currentUser = null;
                     Account currentAccount = null;
-                    // Găsim utilizatorul, contul și cardul asociat
-                    for(User user : users) {
-                        if(user.getEmail().equals(command.getEmail())) {
+                    for (User user : users) {
+                        if (user.getEmail().equals(command.getEmail())) {
                             currentUser = user;
                         }
                     }
@@ -1538,10 +1440,10 @@ public final class Main {
                         }
                     }
 
-                    // Verificăm dacă utilizatorul, contul și cardul au fost găsite
                     if (currentAccount == null) {
                         ObjectNode commandOutput = objectMapper.createObjectNode();
-                        commandOutput.put("command", "cashWithdrawal");
+                        commandOutput.put("command",
+                                "cashWithdrawal");
 
                         ObjectNode errorOutput = objectMapper.createObjectNode();
                         errorOutput.put("description", "Card not found");
@@ -1554,36 +1456,61 @@ public final class Main {
                         break;
                     }
                     double amount = currentAccount.getBalance();
-                    double convertedAmount = Converter.getInstance().convert(
-                            amount, currentAccount.getCurrency(), "RON", Arrays.asList(inputData.getExchangeRates())
+                    double convertedAmount =
+                            Converter.getInstance().convert(
+                            amount, currentAccount.getCurrency(),
+                                    "RON",
+                            Arrays.asList(
+                                    inputData.getExchangeRates())
                     );
 
                     if (convertedAmount >= command.getAmount()) {
                         if (currentAccount.getPlan().equals("standard")) {
                             double fee = command.getAmount() * 0.002;
-                            double necessaryAmount = Converter.getInstance().convert(
-                                    command.getAmount(), "RON", currentAccount.getCurrency(),
+                            double necessaryAmount =
+                                    Converter.getInstance().convert(
+                                    command.getAmount(), "RON",
+                                    currentAccount.getCurrency(),
                                     Arrays.asList(inputData.getExchangeRates()));
-                            double convertedFee = Converter.getInstance().convert(
-                                    fee, "RON", currentAccount.getCurrency(), Arrays.asList(inputData.getExchangeRates()));
-                            double value = currentAccount.getBalance() - necessaryAmount - convertedFee;
+                            double convertedFee =
+                                    Converter.getInstance().convert(
+                                    fee, "RON",
+                                    currentAccount.getCurrency(),
+                                    Arrays.asList(inputData.getExchangeRates()));
+                            double value = currentAccount.getBalance()
+                                    -
+                                    necessaryAmount
+                                    -
+                                    convertedFee;
                             currentAccount.setBalance(value);
-                        } else if(currentAccount.getPlan().equals("silver")) {
+                        } else if (currentAccount.getPlan().equals("silver")) {
                             if (command.getAmount() >= 500) {
                                 double fee = command.getAmount() * 0.001;
-                                double necessaryAmount = Converter.getInstance().convert(
-                                        command.getAmount(), "RON", currentAccount.getCurrency(),
+                                double necessaryAmount =
+                                        Converter.getInstance().convert(
+                                        command.getAmount(), "RON",
+                                        currentAccount.getCurrency(),
                                         Arrays.asList(inputData.getExchangeRates()));
-                                double convertedFee = Converter.getInstance().convert(
-                                        fee, "RON", currentAccount.getCurrency(), Arrays.asList(inputData.getExchangeRates()));
-                                double value = currentAccount.getBalance() - necessaryAmount - convertedFee;
+                                double convertedFee =
+                                        Converter.getInstance().convert(
+                                        fee, "RON",
+                                        currentAccount.getCurrency(),
+                                        Arrays.asList(inputData.getExchangeRates()));
+                                double value = currentAccount.getBalance()
+                                        -
+                                        necessaryAmount - convertedFee;
                                 currentAccount.setBalance(value);
                             }
                         } else {
-                            double necessaryAmount = Converter.getInstance().convert(
-                                    command.getAmount(), "RON", currentAccount.getCurrency(),
+                            double necessaryAmount =
+                                    Converter.getInstance().convert(
+                                    command.getAmount(), "RON",
+                                    currentAccount.getCurrency(),
                                     Arrays.asList(inputData.getExchangeRates()));
-                            currentAccount.setBalance(currentAccount.getBalance() - necessaryAmount);
+                            currentAccount.setBalance(
+                                    currentAccount.getBalance()
+                                    -
+                                    necessaryAmount);
                         }
                         done = true;
                     } else {
@@ -1592,65 +1519,12 @@ public final class Main {
                         currentUser.addTransaction(newTransaction);
                     }
                     if (done) {
-                        Transaction transaction = new Transaction(command.getTimestamp(), "Cash withdrawal of " + command.getAmount(),
+                        Transaction transaction = new Transaction(command.getTimestamp(),
+                                "Cash withdrawal of " + command.getAmount(),
                                 command.getAmount(), "cashWithdrawal");
                         currentUser.addTransaction(transaction);
                     }
                 } case "acceptSplitPayment" -> {
-
-//                    if (equalSplit != null) {
-//                        if (equalSplit.getCommand() != null) {
-//                            for (String payingAccount : equalSplit.getAccounts()) {
-//                                for (User user : users) {
-//                                    for (Account account : user.getAccounts()) {
-//                                        if (account.getIBAN().equals(payingAccount) && equalSplit.getSplitPaymentType().equals("equal")) {
-//                                            account.setAcceptance("yes");
-//                                            equalSplit.setNumberOfAccountsInvolved(equalSplit.getNumberOfAccountsInvolved() + 1);
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//
-//                        if (equalSplit.getCommand() != null) {
-//                            for (String payingAccount : equalSplit.getAccounts()) {
-//                                for (User user : users) {
-//                                    for (Account account : user.getAccounts()) {
-//                                        if (account.getIBAN().equals(payingAccount)) {
-//                                            if (account.getAcceptance().equals("yes")) {
-//                                                equalSplit.setNumberOfAccounts(equalSplit.getNumberOfAccounts() + 1);
-//                                            }
-//                                        }
-//                                        break;
-//                                    }
-//                                    break;
-//                                }
-//                            }
-//                        }
-//
-//                        Transaction transaction = new Transaction(equalSplit.getTimestamp(), equalSplit.getAccounts(),
-//                                equalSplit.getCurrency(), String.format("Split payment of %.2f %s", equalSplit.getAmount(), equalSplit.getCurrency()),
-//                                equalSplit.getAmountForUsers(), equalSplit.getSplitPaymentType(),
-//                                "splitAccepted");
-//
-//                        if (equalSplit.getNumberOfAccounts() == equalSplit.getNumberOfAccountsCommand()) {
-//                            if (splitPayment.getCommand() != null) {
-//
-//                                    if (equalSplit.getCommand() != null) {
-//                                        for (String payingAccount : equalSplit.getAccounts()) {
-//                                            for (User user : users) {
-//                                                for (Account account : user.getAccounts()) {
-//                                                    if (account.getIBAN().equals(payingAccount)) {
-//                                                        user.addTransaction(transaction);
-//                                                    }
-//                                                }
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//
-//                    }
                     if (command.getSplitPaymentType().equals("custom")) {
                         if (splitPayment.getAccounts() == null) {
                             break;
@@ -1664,14 +1538,18 @@ public final class Main {
 
                         int i = 0;
 
-
                         if (splitPayment.getCommand() != null) {
                             for (String payingAccount : splitPayment.getAccounts()) {
                                 for (User user : users) {
                                     for (Account account : user.getAccounts()) {
-                                        if (account.getIBAN().equals(payingAccount) && splitPayment.getSplitPaymentType().equals("custom")) {
+                                        if (account.getIBAN().equals(payingAccount)
+                                                &&
+                                                splitPayment.getSplitPaymentType().
+                                                        equals("custom")) {
                                             account.setAcceptance("yes");
-                                            splitPayment.setNumberOfAccountsInvolved(splitPayment.getNumberOfAccountsInvolved() + 1);
+                                            splitPayment.setNumberOfAccountsInvolved(
+                                                    splitPayment.getNumberOfAccountsInvolved()
+                                                            + 1);
                                         }
                                     }
                                 }
@@ -1684,7 +1562,8 @@ public final class Main {
                                     for (Account account : user.getAccounts()) {
                                         if (account.getIBAN().equals(payingAccount)) {
                                             if (account.getAcceptance().equals("yes")) {
-                                                splitPayment.setNumberOfAccounts(splitPayment.getNumberOfAccounts() + 1);
+                                                splitPayment.setNumberOfAccounts(
+                                                        splitPayment.getNumberOfAccounts() + 1);
                                             }
                                         }
                                         break;
@@ -1694,48 +1573,37 @@ public final class Main {
                             }
                         }
 
-
-                        boolean error = false;
-
-                        Transaction transaction = new Transaction(splitPayment.getTimestamp(), splitPayment.getAccounts(),
-                                splitPayment.getCurrency(), String.format("Split payment of %.2f %s", splitPayment.getAmount(), splitPayment.getCurrency()),
-                                splitPayment.getAmountForUsers(), splitPayment.getSplitPaymentType(),
+                        Transaction transaction = new Transaction(
+                                splitPayment.getTimestamp(), splitPayment.getAccounts(),
+                                splitPayment.getCurrency(),
+                                String.format("Split payment of %.2f %s",
+                                        splitPayment.getAmount(),
+                                        splitPayment.getCurrency()),
+                                splitPayment.getAmountForUsers(),
+                                splitPayment.getSplitPaymentType(),
                                 "splitAccepted");
 
-//                    if (splitPayment.getNumberOfAccounts() == splitPayment.getNumberOfAccountsCommand()) {
-//                        for (String payingAccount : splitPayment.getAccounts()) {
-//                            for (User user : users) {
-//                                for (Account account : user.getAccounts()) {
-//                                    if (account.getIBAN().equals(payingAccount)) {
-//                                        if (account.getTooPoorToSplit() != null) {
-//                                            error = true;
-//                                        }
-//                                        if (error) {
-//                                            user.addTransaction(errorOut);
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-                        String newString = null;
-
-                        if (splitPayment.getNumberOfAccounts() == splitPayment.getNumberOfAccountsCommand()) {
+                        if (splitPayment.getNumberOfAccounts()
+                                ==
+                                splitPayment.getNumberOfAccountsCommand()) {
                             for (String payingAccount : splitPayment.getAccounts()) {
                                 for (User user : users) {
                                     for (Account account : user.getAccounts()) {
                                         if (account.getIBAN().equals(payingAccount)) {
                                             if (splitPayment.getAux().get(i) != null) {
-                                                double convertedAmount = Converter.getInstance().convert(
-                                                        splitPayment.getAux().get(i), splitPayment.getCurrency(),
-                                                        account.getCurrency(), Arrays.asList(inputData.getExchangeRates())
+                                                double convertedAmount =
+                                                        Converter.getInstance().convert(
+                                                        splitPayment.getAux().get(i),
+                                                        splitPayment.getCurrency(),
+                                                        account.getCurrency(),
+                                                        Arrays.asList(inputData.getExchangeRates())
                                                 );
                                                 if (account.getBalance() <= convertedAmount) {
-                                                    splitPayment.setNumberOfPoorAccounts(splitPayment.getNumberOfPoorAccounts() + 1);
-                                                    System.out.println(payingAccount);
+                                                    splitPayment.setNumberOfPoorAccounts(
+                                                            splitPayment.getNumberOfPoorAccounts()
+                                                                    + 1);
                                                     account.setTooPoorToSplit("true");
                                                     splitPayment.setFirstAccount(payingAccount);
-                                                    newString = payingAccount;
                                                     break;
                                                 }
                                                 i++;
@@ -1760,22 +1628,29 @@ public final class Main {
                                 }
                             }
                         }
-                        Transaction errorOut = new Transaction(splitPayment.getTimestamp(), splitPayment.getAccounts(),
-                                splitPayment.getCurrency(), String.format(String.format("Split payment of %.2f %s", splitPayment.getAmount(), splitPayment.getCurrency()),
+                        Transaction errorOut = new Transaction(
+                                splitPayment.getTimestamp(), splitPayment.getAccounts(),
+                                splitPayment.getCurrency(),
+                                String.format(String.format("Split payment of %.2f %s",
+                                                splitPayment.getAmount(),
+                                                splitPayment.getCurrency()),
                                 splitPayment.getAmount(), splitPayment.getCurrency()),
-                                splitPayment.getAmountForUsers(), "Account " + splitPayment.getFirstAccount()
+                                splitPayment.getAmountForUsers(),
+                                "Account " + splitPayment.getFirstAccount()
                                 + " has insufficient funds for a split payment.",
                                 splitPayment.getSplitPaymentType(),
                                 "noMoneyToSplit");
 
-                        Transaction equalTransaction = new Transaction(splitPayment.getTimestamp(), "Noew",
+                        Transaction equalTransaction = new Transaction(
+                                splitPayment.getTimestamp(), "Noew",
                                 "changeInterestRate");
 
-                        if (splitPayment.getNumberOfAccounts() == splitPayment.getNumberOfAccountsCommand()) {
+                        if (splitPayment.getNumberOfAccounts()
+                                ==
+                                splitPayment.getNumberOfAccountsCommand()) {
                             if (splitPayment.getCommand() != null) {
 
                                 if (splitPayment.getNumberOfPoorAccounts() != 0) {
-                                    System.out.println(splitPayment.getNumberOfPoorAccounts());
                                     for (String payingAccount : splitPayment.getAccounts()) {
                                         for (User user : users) {
                                             for (Account account : user.getAccounts()) {
@@ -1790,9 +1665,13 @@ public final class Main {
                                         for (String payingAccount : splitPayment.getAccounts()) {
                                             for (User user : users) {
                                                 for (Account account : user.getAccounts()) {
-                                                    if (account.getIBAN().equals(payingAccount) && command.getSplitPaymentType().equals("custom")) {
+                                                    if (account.getIBAN().equals(payingAccount)
+                                                            &&
+                                                            command.getSplitPaymentType().
+                                                                    equals("custom")) {
                                                         user.addTransaction(transaction);
-                                                    } else if (command.getSplitPaymentType().equals("equal")) {
+                                                    } else if (command.
+                                                            getSplitPaymentType().equals("equal")) {
                                                         user.addTransaction(equalTransaction);
                                                     }
                                                 }
@@ -1802,111 +1681,111 @@ public final class Main {
                                 }
                             }
                         }
-                    } else if (command.getSplitPaymentType().equals("equal")) {
-                        if (equalSplit.getCommand() != null) {
-                            for (String payingAccount : equalSplit.getAccounts()) {
-                                for (User user : users) {
-                                    for (Account account : user.getAccounts()) {
-                                        if (account.getIBAN().equals(payingAccount)) {
-                                            account.setAcceptance("yes");
-                                            equalSplit.setNumberOfAccountsInvolved(equalSplit.getNumberOfAccountsInvolved() + 1);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        if (equalSplit.getCommand() != null) {
-                            for (String payingAccount : equalSplit.getAccounts()) {
-                                for (User user : users) {
-                                    for (Account account : user.getAccounts()) {
-                                        if (account.getIBAN().equals(payingAccount)) {
-                                            if (account.getAcceptance().equals("yes")) {
-                                                equalSplit.setNumberOfAccounts(equalSplit.getNumberOfAccounts() + 1);
-                                            }
-                                        }
-                                        break;
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-
-                        int i = 0;
-
-                        if (equalSplit.getNumberOfAccounts() == equalSplit.getNumberOfAccountsCommand()) {
-                            for (String payingAccount : equalSplit.getAccounts()) {
-                                for (User user : users) {
-                                    for (Account account : user.getAccounts()) {
-                                        if (account.getIBAN().equals(payingAccount)) {
-                                                double convertedAmount = Converter.getInstance().convert(
-                                                        equalSplit.getAmount()/equalSplit.getAccounts().size(), equalSplit.getCurrency(),
-                                                        account.getCurrency(), Arrays.asList(inputData.getExchangeRates())
-                                                );
-                                                if (account.getBalance() <= convertedAmount) {
-                                                    equalSplit.setNumberOfPoorAccounts(equalSplit.getNumberOfPoorAccounts() + 1);
-                                                    System.out.println(payingAccount);
-                                                    account.setTooPoorToSplit("true");
-                                                    equalSplit.setFirstAccount(payingAccount);
-                                                    break;
-                                                }
-
-
-                                            if (equalSplit.getNumberOfPoorAccounts() != 0) {
-                                                break;
-                                            }
-                                        }
-                                        if (equalSplit.getNumberOfPoorAccounts() != 0) {
-                                            break;
-                                        }
-                                    }
-                                    if (equalSplit.getNumberOfPoorAccounts() != 0) {
-                                        break;
-                                    }
-                                }
-                                if (equalSplit.getNumberOfPoorAccounts() != 0) {
-                                    break;
-                                }
-                            }
-                        }
-
-                        Transaction errorOut = new Transaction(equalSplit.getTimestamp(), equalSplit.getAccounts(),
-                                equalSplit.getCurrency(), String.format(String.format("Split payment of %.2f %s", equalSplit.getAmount(), equalSplit.getCurrency()),
-                                equalSplit.getAmount(), equalSplit.getCurrency()),
-                                equalSplit.getAmount()/equalSplit.getAccounts().size(), "Account " + equalSplit.getFirstAccount()
-                                + " has insufficient funds for a split payment.",
-                                equalSplit.getSplitPaymentType(),
-                                "noMoneyToSplit");
-
-
-                        if (equalSplit.getNumberOfAccounts() == equalSplit.getNumberOfAccountsCommand()) {
-                            if (equalSplit.getCommand() != null) {
-
-                                if (equalSplit.getNumberOfPoorAccounts() != 0) {
-                                    System.out.println(equalSplit.getNumberOfPoorAccounts());
-                                    for (String payingAccount : equalSplit.getAccounts()) {
-                                        for (User user : users) {
-                                            for (Account account : user.getAccounts()) {
-                                                if (account.getIBAN().equals(payingAccount)) {
-                                                    user.addTransaction(errorOut);
-                                                }
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    if (equalSplit.getCommand() != null) {
-                                        for (String payingAccount : equalSplit.getAccounts()) {
-                                            for (User user : users) {
-                                                for (Account account : user.getAccounts()) {
-                                                    if (account.getIBAN().equals(payingAccount)) {
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+//                    } else if (command.getSplitPaymentType().equals("equal")) {
+//                        if (equalSplit.getCommand() != null) {
+//                            for (String payingAccount : equalSplit.getAccounts()) {
+//                                for (User user : users) {
+//                                    for (Account account : user.getAccounts()) {
+//                                        if (account.getIBAN().equals(payingAccount)) {
+//                                            account.setAcceptance("yes");
+//                                            equalSplit.setNumberOfAccountsInvolved(
+//                                                    equalSplit.getNumberOfAccountsInvolved() + 1);
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//
+//                        if (equalSplit.getCommand() != null) {
+//                            for (String payingAccount : equalSplit.getAccounts()) {
+//                                for (User user : users) {
+//                                    for (Account account : user.getAccounts()) {
+//                                        if (account.getIBAN().equals(payingAccount)) {
+//                                            if (account.getAcceptance().equals("yes")) {
+//                                                equalSplit.setNumberOfAccounts(
+//                                                        equalSplit.getNumberOfAccounts() + 1);
+//                                            }
+//                                        }
+//                                        break;
+//                                    }
+//                                    break;
+//                                }
+//                            }
+//                        }
+//
+//                        if (equalSplit.getNumberOfAccounts()
+//                                ==
+//                                equalSplit.getNumberOfAccountsCommand()) {
+//                            for (String payingAccount : equalSplit.getAccounts()) {
+//                                for (User user : users) {
+//                                    for (Account account : user.getAccounts()) {
+//                                        if (account.getIBAN().equals(payingAccount)) {
+//                                                double convertedAmount = Converter.
+//                                                        getInstance().convert(
+//                                                        equalSplit.getAmount()
+//                                                                /
+//                                                                equalSplit.getAccounts().size(),
+//                                                        equalSplit.getCurrency(),
+//                                                        account.getCurrency(),
+//                                                        Arrays.asList(inputData.getExchangeRates())
+//                                                );
+//                                                if (account.getBalance() <= convertedAmount) {
+//                                                    equalSplit.setNumberOfPoorAccounts(
+//                                                            equalSplit.getNumberOfPoorAccounts()
+//                                                                    + 1);
+//                                                    account.setTooPoorToSplit("true");
+//                                                    equalSplit.setFirstAccount(payingAccount);
+//                                                    break;
+//                                                }
+//                                            if (equalSplit.getNumberOfPoorAccounts() != 0) {
+//                                                break;
+//                                            }
+//                                        }
+//                                        if (equalSplit.getNumberOfPoorAccounts() != 0) {
+//                                            break;
+//                                        }
+//                                    }
+//                                    if (equalSplit.getNumberOfPoorAccounts() != 0) {
+//                                        break;
+//                                    }
+//                                }
+//                                if (equalSplit.getNumberOfPoorAccounts() != 0) {
+//                                    break;
+//                                }
+//                            }
+//                        }
+//
+//                        Transaction errorOut = new Transaction(
+//                                equalSplit.getTimestamp(), equalSplit.getAccounts(),
+//                                equalSplit.getCurrency(), String.format(String.format(
+//                                        "Split payment of %.2f %s", equalSplit.getAmount(),
+//                                        equalSplit.getCurrency()),
+//                                equalSplit.getAmount(), equalSplit.getCurrency()),
+//                                equalSplit.getAmount() / equalSplit.getAccounts().size(),
+//                                "Account " + equalSplit.getFirstAccount()
+//                                + " has insufficient funds for a split payment.",
+//                                equalSplit.getSplitPaymentType(),
+//                                "noMoneyToSplit");
+//
+//
+//                        if (equalSplit.getNumberOfAccounts()
+//                                ==
+//                                equalSplit.getNumberOfAccountsCommand()) {
+//                            if (equalSplit.getCommand() != null) {
+//
+//                                if (equalSplit.getNumberOfPoorAccounts() != 0) {
+//                                    for (String payingAccount : equalSplit.getAccounts()) {
+//                                        for (User user : users) {
+//                                            for (Account account : user.getAccounts()) {
+//                                                if (account.getIBAN().equals(payingAccount)) {
+//                                                    user.addTransaction(errorOut);
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
                     }
                 }
                 default -> {

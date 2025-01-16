@@ -1,8 +1,11 @@
 package org.poo.main;
 
-import org.poo.fileio.ExchangeInput;
-import java.util.List;
-
 public interface CashbackStrategy {
+    /**
+     * calculeaza cashback
+     * @param amount
+     * @param account
+     * @return
+     */
     double calculateCashback(double amount, Account account);
 }

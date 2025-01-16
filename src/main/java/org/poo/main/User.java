@@ -22,7 +22,7 @@ public final class User implements JsonOutput {
         return accept;
     }
 
-    public void setAccept(String accept) {
+    public void setAccept(final String accept) {
         this.accept = accept;
     }
 
@@ -30,7 +30,7 @@ public final class User implements JsonOutput {
         return plan;
     }
 
-    public void setPlan(String plan) {
+    public void setPlan(final String plan) {
         this.plan = plan;
     }
 
@@ -38,15 +38,15 @@ public final class User implements JsonOutput {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthDate(final String theBirthDate) {
+        this.birthDate = theBirthDate;
     }
 
     public String getOccupation() {
         return occupation;
     }
 
-    public void setOccupation(String occupation) {
+    public void setOccupation(final String occupation) {
         this.occupation = occupation;
     }
 
@@ -141,22 +141,46 @@ public final class User implements JsonOutput {
         private String occupation;
         private String plan;
 
+        /**
+         * Setează planul utilizatorului și returnează instanța builder-ului.
+         *
+         * @param plan Planul asociat utilizatorului (ex. standard, student, silver).
+         * @return Instanța curentă a builder-ului.
+         */
         public final UserBuilder plan(final String plan) {
             this.plan = plan;
             return this;
         }
 
+        /**
+         * Setează data de naștere a utilizatorului și returnează instanța builder-ului.
+         *
+         * @param birthDate Data de naștere a utilizatorului în formatul dorit (ex. "yyyy-MM-dd").
+         * @return Instanța curentă a builder-ului.
+         */
         public final UserBuilder birthDate(final String birthDate) {
             this.birthDate = birthDate;
             return this;
         }
 
+        /**
+         * Setează ocupația utilizatorului și returnează instanța builder-ului.
+         *
+         * @param occupation Ocupația utilizatorului (ex. programator, student).
+         * @return Instanța curentă a builder-ului.
+         */
         public final UserBuilder occupation(final String occupation) {
             this.occupation = occupation;
             return this;
         }
 
-        private final UserBuilder transactions(final ArrayList<Transaction> myTransactions) {
+        /**
+         * Setează lista tranzacțiilor asociate utilizatorului și returnează instanța builder-ului.
+         *
+         * @param myTransactions Lista de tranzacții a utilizatorului.
+         * @return Instanța curentă a builder-ului.
+         */
+        private UserBuilder transactions(final ArrayList<Transaction> myTransactions) {
             this.transactions = myTransactions;
             return this;
         }

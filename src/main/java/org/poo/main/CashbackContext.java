@@ -1,16 +1,23 @@
 package org.poo.main;
 
-import org.poo.fileio.ExchangeInput;
-import java.util.List;
-
-public class CashbackContext {
+public final class CashbackContext {
     private CashbackStrategy strategy;
 
-    public void setStrategy(CashbackStrategy strategy) {
+    /**
+     * @param strategy
+     */
+    public void setStrategy(
+            final CashbackStrategy strategy) {
         this.strategy = strategy;
     }
 
-    public double executeStrategy(double amount, Account account) {
+    /**
+     * @param amount
+     * @param account
+     * @return cashback
+     */
+    public double executeStrategy(
+            final double amount, final Account account) {
         return strategy.calculateCashback(amount, account);
     }
 }

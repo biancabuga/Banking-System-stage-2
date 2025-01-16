@@ -2,8 +2,6 @@ package org.poo.main;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import java.util.Date;
 import java.util.List;
 
 public class Transaction implements JsonOutput {
@@ -26,42 +24,93 @@ public class Transaction implements JsonOutput {
     private String typeSplit;
     private String poorAccount;
 
+
+    /**
+     * Obține contul cu fonduri insuficiente.
+     *
+     * @return Contul cu fonduri insuficiente.
+     */
     public String getPoorAccount() {
         return poorAccount;
     }
 
-    public void setPoorAccount(String poorAccount) {
+    /**
+     * Setează contul cu fonduri insuficiente.
+     *
+     * @param poorAccount Contul cu fonduri insuficiente.
+     */
+    public void setPoorAccount(final String poorAccount) {
         this.poorAccount = poorAccount;
     }
 
+    /**
+     * Obține tipul de împărțire a plății.
+     *
+     * @return Tipul de împărțire a plății.
+     */
     public String getTypeSplit() {
         return typeSplit;
     }
 
-    public void setTypeSplit(String typeSplit) {
+    /**
+     * Setează tipul de împărțire a plății.
+     *
+     * @param typeSplit Tipul de împărțire a plății.
+     */
+    public void setTypeSplit(final String typeSplit) {
         this.typeSplit = typeSplit;
     }
 
+    /**
+     * Obține sumele asociate conturilor implicate în tranzacție.
+     *
+     * @return Lista de sume pentru conturi.
+     */
     public List<Double> getAmounts() {
         return amounts;
     }
 
-    public void setAmounts(List<Double> amounts) {
+    /**
+     * Setează sumele asociate conturilor implicate în tranzacție.
+     *
+     * @param amounts Lista de sume pentru conturi.
+     */
+    public void setAmounts(final List<Double> amounts) {
         this.amounts = amounts;
     }
 
+    /**
+     * Obține planul asociat tranzacției.
+     *
+     * @return Planul tranzacției.
+     */
     public String getPlan() {
         return plan;
     }
 
-    public void setPlan(String plan) {
+    /**
+     * Setează planul asociat tranzacției.
+     *
+     * @param plan Planul tranzacției.
+     */
+    public void setPlan(final String plan) {
         this.plan = plan;
     }
 
+    /**
+     * Obține mesajul de eroare, dacă există.
+     *
+     * @return Mesajul de eroare.
+     */
     public final String getError() {
         return error;
     }
 
+    /**
+     * Setează mesajul de eroare.
+     *
+     * @param error Mesajul de eroare.
+     */
     public final void setError(final String error) {
         this.error = error;
     }
@@ -277,7 +326,9 @@ public class Transaction implements JsonOutput {
         this.error = error;
     }
 
-    public Transaction(final int timestamp, final String description, final String receiverIBAN, final String plan, final String transferType) {
+    public Transaction(final int timestamp, final String description,
+                       final String receiverIBAN, final String plan,
+                       final String transferType) {
         this.timestamp = timestamp;
         this.description = description;
         this.receiverIBAN = receiverIBAN;
@@ -285,14 +336,16 @@ public class Transaction implements JsonOutput {
         this.transferType = transferType;
     }
 
-    public Transaction(final int timestamp, final String description, final double amountToPay, final String transferType) {
+    public Transaction(final int timestamp, final String description,
+                       final double amountToPay, final String transferType) {
         this.timestamp = timestamp;
         this.description = description;
         this.amountToPay = amountToPay;
         this.transferType = transferType;
     }
-    public Transaction(final int timestamp, List<String> accountsToSplit,
-                       String currency, String description, List<Double> amount, String type, String transferType) {
+    public Transaction(final int timestamp, final List<String> accountsToSplit,
+                       final String currency, final String description, final List<Double> amount,
+                       final String type, final String transferType) {
         this.timestamp = timestamp;
         this.description = description;
         this.accountsToSplit = accountsToSplit;
@@ -302,8 +355,9 @@ public class Transaction implements JsonOutput {
         this.transferType = transferType;
     }
 
-    public Transaction(final int timestamp, List<String> accountsToSplit,
-                       String currency, String description, List<Double> amount,String error, String type, String transferType) {
+    public Transaction(final int timestamp, final List<String> accountsToSplit,
+                       final String currency, final String description, final List<Double> amount,
+                       final String error, final String type, final String transferType) {
         this.timestamp = timestamp;
         this.description = description;
         this.accountsToSplit = accountsToSplit;
@@ -314,8 +368,9 @@ public class Transaction implements JsonOutput {
         this.poorAccount = error;
     }
 
-    public Transaction(final int timestamp, List<String> accountsToSplit,
-                       String currency, String description, double amount,String error, String type, String transferType) {
+    public Transaction(final int timestamp, final List<String> accountsToSplit,
+                       final String currency, final String description, final double amount,
+                       final String error, final String type, final String transferType) {
         this.timestamp = timestamp;
         this.description = description;
         this.accountsToSplit = accountsToSplit;
