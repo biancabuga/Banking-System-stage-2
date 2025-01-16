@@ -1681,111 +1681,111 @@ public final class Main {
                                 }
                             }
                         }
-//                    } else if (command.getSplitPaymentType().equals("equal")) {
-//                        if (equalSplit.getCommand() != null) {
-//                            for (String payingAccount : equalSplit.getAccounts()) {
-//                                for (User user : users) {
-//                                    for (Account account : user.getAccounts()) {
-//                                        if (account.getIBAN().equals(payingAccount)) {
-//                                            account.setAcceptance("yes");
-//                                            equalSplit.setNumberOfAccountsInvolved(
-//                                                    equalSplit.getNumberOfAccountsInvolved() + 1);
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//
-//                        if (equalSplit.getCommand() != null) {
-//                            for (String payingAccount : equalSplit.getAccounts()) {
-//                                for (User user : users) {
-//                                    for (Account account : user.getAccounts()) {
-//                                        if (account.getIBAN().equals(payingAccount)) {
-//                                            if (account.getAcceptance().equals("yes")) {
-//                                                equalSplit.setNumberOfAccounts(
-//                                                        equalSplit.getNumberOfAccounts() + 1);
-//                                            }
-//                                        }
-//                                        break;
-//                                    }
-//                                    break;
-//                                }
-//                            }
-//                        }
-//
-//                        if (equalSplit.getNumberOfAccounts()
-//                                ==
-//                                equalSplit.getNumberOfAccountsCommand()) {
-//                            for (String payingAccount : equalSplit.getAccounts()) {
-//                                for (User user : users) {
-//                                    for (Account account : user.getAccounts()) {
-//                                        if (account.getIBAN().equals(payingAccount)) {
-//                                                double convertedAmount = Converter.
-//                                                        getInstance().convert(
-//                                                        equalSplit.getAmount()
-//                                                                /
-//                                                                equalSplit.getAccounts().size(),
-//                                                        equalSplit.getCurrency(),
-//                                                        account.getCurrency(),
-//                                                        Arrays.asList(inputData.getExchangeRates())
-//                                                );
-//                                                if (account.getBalance() <= convertedAmount) {
-//                                                    equalSplit.setNumberOfPoorAccounts(
-//                                                            equalSplit.getNumberOfPoorAccounts()
-//                                                                    + 1);
-//                                                    account.setTooPoorToSplit("true");
-//                                                    equalSplit.setFirstAccount(payingAccount);
-//                                                    break;
-//                                                }
-//                                            if (equalSplit.getNumberOfPoorAccounts() != 0) {
-//                                                break;
-//                                            }
-//                                        }
-//                                        if (equalSplit.getNumberOfPoorAccounts() != 0) {
-//                                            break;
-//                                        }
-//                                    }
-//                                    if (equalSplit.getNumberOfPoorAccounts() != 0) {
-//                                        break;
-//                                    }
-//                                }
-//                                if (equalSplit.getNumberOfPoorAccounts() != 0) {
-//                                    break;
-//                                }
-//                            }
-//                        }
-//
-//                        Transaction errorOut = new Transaction(
-//                                equalSplit.getTimestamp(), equalSplit.getAccounts(),
-//                                equalSplit.getCurrency(), String.format(String.format(
-//                                        "Split payment of %.2f %s", equalSplit.getAmount(),
-//                                        equalSplit.getCurrency()),
-//                                equalSplit.getAmount(), equalSplit.getCurrency()),
-//                                equalSplit.getAmount() / equalSplit.getAccounts().size(),
-//                                "Account " + equalSplit.getFirstAccount()
-//                                + " has insufficient funds for a split payment.",
-//                                equalSplit.getSplitPaymentType(),
-//                                "noMoneyToSplit");
-//
-//
-//                        if (equalSplit.getNumberOfAccounts()
-//                                ==
-//                                equalSplit.getNumberOfAccountsCommand()) {
-//                            if (equalSplit.getCommand() != null) {
-//
-//                                if (equalSplit.getNumberOfPoorAccounts() != 0) {
-//                                    for (String payingAccount : equalSplit.getAccounts()) {
-//                                        for (User user : users) {
-//                                            for (Account account : user.getAccounts()) {
-//                                                if (account.getIBAN().equals(payingAccount)) {
-//                                                    user.addTransaction(errorOut);
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
+                    } else if (command.getSplitPaymentType().equals("equal")) {
+                        if (equalSplit.getCommand() != null) {
+                            for (String payingAccount : equalSplit.getAccounts()) {
+                                for (User user : users) {
+                                    for (Account account : user.getAccounts()) {
+                                        if (account.getIBAN().equals(payingAccount)) {
+                                            account.setAcceptance("yes");
+                                            equalSplit.setNumberOfAccountsInvolved(
+                                                    equalSplit.getNumberOfAccountsInvolved() + 1);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (equalSplit.getCommand() != null) {
+                            for (String payingAccount : equalSplit.getAccounts()) {
+                                for (User user : users) {
+                                    for (Account account : user.getAccounts()) {
+                                        if (account.getIBAN().equals(payingAccount)) {
+                                            if (account.getAcceptance().equals("yes")) {
+                                                equalSplit.setNumberOfAccounts(
+                                                        equalSplit.getNumberOfAccounts() + 1);
+                                            }
+                                        }
+                                        break;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (equalSplit.getNumberOfAccounts()
+                                ==
+                                equalSplit.getNumberOfAccountsCommand()) {
+                            for (String payingAccount : equalSplit.getAccounts()) {
+                                for (User user : users) {
+                                    for (Account account : user.getAccounts()) {
+                                        if (account.getIBAN().equals(payingAccount)) {
+                                                double convertedAmount = Converter.
+                                                        getInstance().convert(
+                                                        equalSplit.getAmount()
+                                                                /
+                                                                equalSplit.getAccounts().size(),
+                                                        equalSplit.getCurrency(),
+                                                        account.getCurrency(),
+                                                        Arrays.asList(inputData.getExchangeRates())
+                                                );
+                                                if (account.getBalance() <= convertedAmount) {
+                                                    equalSplit.setNumberOfPoorAccounts(
+                                                            equalSplit.getNumberOfPoorAccounts()
+                                                                    + 1);
+                                                    account.setTooPoorToSplit("true");
+                                                    equalSplit.setFirstAccount(payingAccount);
+                                                    break;
+                                                }
+                                            if (equalSplit.getNumberOfPoorAccounts() != 0) {
+                                                break;
+                                            }
+                                        }
+                                        if (equalSplit.getNumberOfPoorAccounts() != 0) {
+                                            break;
+                                        }
+                                    }
+                                    if (equalSplit.getNumberOfPoorAccounts() != 0) {
+                                        break;
+                                    }
+                                }
+                                if (equalSplit.getNumberOfPoorAccounts() != 0) {
+                                    break;
+                                }
+                            }
+                        }
+
+                        Transaction errorOut = new Transaction(
+                                equalSplit.getTimestamp(), equalSplit.getAccounts(),
+                                equalSplit.getCurrency(), String.format(String.format(
+                                        "Split payment of %.2f %s", equalSplit.getAmount(),
+                                        equalSplit.getCurrency()),
+                                equalSplit.getAmount(), equalSplit.getCurrency()),
+                                equalSplit.getAmount() / equalSplit.getAccounts().size(),
+                                "Account " + equalSplit.getFirstAccount()
+                                + " has insufficient funds for a split payment.",
+                                equalSplit.getSplitPaymentType(),
+                                "noMoneyToSplit");
+
+
+                        if (equalSplit.getNumberOfAccounts()
+                                ==
+                                equalSplit.getNumberOfAccountsCommand()) {
+                            if (equalSplit.getCommand() != null) {
+
+                                if (equalSplit.getNumberOfPoorAccounts() != 0) {
+                                    for (String payingAccount : equalSplit.getAccounts()) {
+                                        for (User user : users) {
+                                            for (Account account : user.getAccounts()) {
+                                                if (account.getIBAN().equals(payingAccount)) {
+                                                    user.addTransaction(errorOut);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 default -> {

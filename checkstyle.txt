@@ -17,9 +17,8 @@ Starting audit...
 [ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:1469:64: '0.002' is a magic number. [MagicNumber]
 [ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:1487:56: '500' is a magic number. [MagicNumber]
 [ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:1488:68: '0.001' is a magic number. [MagicNumber]
-[ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/Main.java:1730: Line is longer than 100 characters (found 101). [LineLength]
 [ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/User.java:150:52: 'plan' hides a field. [HiddenField]
 [ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/User.java:161:57: 'birthDate' hides a field. [HiddenField]
 [ERROR] /home/bianca/ANOTHER_REBASE/AnotherOne/./src/main/java/org/poo/main/User.java:172:58: 'occupation' hides a field. [HiddenField]
 Audit done.
-Checkstyle ends with 22 errors.
+Checkstyle ends with 21 errors.
